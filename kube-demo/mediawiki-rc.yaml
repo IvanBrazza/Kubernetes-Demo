@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: mwfrontend
+  labels:
+    name: mwfrontend
+spec:
+  replicas: 1
+  selector:
+    name: mwfrontend
+  template:
+    metadata:
+      labels:
+        name: mwfrontend
+    spec:
+      containers:
+        - image: ivanbrazza/mediawiki
+          name: mediawiki
+          env:
+            - name: MEDIAWIKI_DB_PASSWORD
+              value: "welcome1"
+            - name: ADMIN_PASSWORD
+              value: "welcome1"
+            - name: WIKI_NAME
+              value: "testwiki"
+            - name: ADMIN_USER
+              value: "admin"
+            - name: ENV
+              value: "testdev"
+            - name: TERMTAG
+              value: "testdev"
+          ports:
+            - containerPort: 80
+              name: mediawiki
+#          volumeMounts:
+#              # Name must match the volume name below.
+#            - name: mediawiki-persistent-storage
+#              # Mount path within the container.
+#              mountPath: /var/www/html
+#      volumes:
+#        - name: mediawiki-persistent-storage
+#          gcePersistentDisk:
+#            # This GCE persistent disk must already exist.
+#            pdName: mediawiki-disk
+#            fsType: ext4

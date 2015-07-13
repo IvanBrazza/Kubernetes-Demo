@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx
+  labels:
+    name: nginx
+spec:
+  replicas: 1
+  selector:
+    name: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        name: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: nginx-demo
+            mountPath: /usr/share/nginx/html
+      volumes:
+        - name: nginx-demo
+          gcePersistentDisk:
+            pdName: nginx-demo
+            fsType: ext4
+            #readOnly: true
